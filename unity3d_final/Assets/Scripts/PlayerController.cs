@@ -9,9 +9,16 @@ public class PlayerController : MonoBehaviour
     public float forwardSpeed;
 
     private int desiredLane = 1; // Middle
-    public float laneDistance = 4; // The distance between 2 lanes
+    public float laneDistance = 2.5f; // The distance between 2 lanes
+
     public float jumpForce;
     public float Gravity = -20;
+
+    public bool isGrounded;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+
+    private bool isSliding = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,20 +30,20 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         direction.z = forwardSpeed;
-        
-        if (controller.isGrounded)
+
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.15f, groundLayer);
+        if (isGrounded)
         {
-            direction.y = -1;
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                Jump();
-            }
+            direction.y = 0;
+            if (SwipeManager.swipeUp)
+                Jump();     
         }
         else
         {
             direction.y += Gravity * Time.deltaTime;
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             desiredLane++;
@@ -47,6 +54,19 @@ public class PlayerController : MonoBehaviour
         {
             desiredLane--;
             if (desiredLane == -1) desiredLane = 0;
+        }
+        */
+        if (SwipeManager.swipeRight)
+        {
+            desiredLane++;
+            if (desiredLane == 3)
+                desiredLane = 2;
+        }
+        if (SwipeManager.swipeLeft)
+        {
+            desiredLane--;
+            if (desiredLane == -1)
+                desiredLane = 0;
         }
 
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;

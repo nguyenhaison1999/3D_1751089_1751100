@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7719033890108477036}
   - component: {fileID: 5547153968503650982}
   - component: {fileID: 6573820066788119182}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6573820065376212716}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 6089934953730598767}
   - component: {fileID: 8315682148196029349}
   - component: {fileID: 2896609094089366556}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TrafficCone
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
