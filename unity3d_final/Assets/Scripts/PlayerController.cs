@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 direction;
     public float forwardSpeed;
+    public float maxSpeed;
 
     private int desiredLane = 1; // Middle
     public float laneDistance = 2.5f; // The distance between 2 lanes
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public Transform groundCheck;
 
+    public Animator animator;
     private bool isSliding = false;
 
     // Start is called before the first frame update
@@ -29,9 +31,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PlayerManager.isGameStarted) return;
+
+        if (forwardSpeed < maxSpeed) 
+            forwardSpeed += 0.1f * Time.deltaTime;
+
+        animator.SetBool("isGameStarted", true);
         direction.z = forwardSpeed;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.15f, groundLayer);
+        animator.SetBool("isGrounded", isGrounded);
+
         if (isGrounded)
         {
             direction.y = 0;
@@ -41,6 +51,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             direction.y += Gravity * Time.deltaTime;
+        }
+
+        if (SwipeManager.swipeDown && !isSliding)
+        {
+            StartCoroutine(Slide());
         }
 
         /*
@@ -96,7 +111,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    { 
+    {
+        if (!PlayerManager.isGameStarted) return;
         controller.Move(direction * Time.fixedDeltaTime);
     }
 
@@ -110,5 +126,20 @@ public class PlayerController : MonoBehaviour
         {
             PlayerManager.gameOver = true;
         }
+    }
+
+    private IEnumerator Slide()
+    {
+        isSliding = true;
+        animator.SetBool("isSliding", true);
+        controller.center = new Vector3(0, -0.5f, 0);
+        controller.height = 1;
+
+        yield return new WaitForSeconds(1.3f);
+
+        controller.center = new Vector3(0, 0, 0);
+        controller.height = 2;
+        animator.SetBool("isSliding", false);
+        isSliding = false;
     }
 }
