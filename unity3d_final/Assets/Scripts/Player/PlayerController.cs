@@ -44,20 +44,21 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            direction.y = 0;
             if (SwipeManager.swipeUp)
-                Jump();     
+                Jump();
+
+            if (SwipeManager.swipeDown && !isSliding)
+                StartCoroutine(Slide());
         }
         else
         {
             direction.y += Gravity * Time.deltaTime;
+            if (SwipeManager.swipeDown && !isSliding)
+            {
+                StartCoroutine(Slide());
+                direction.y = -8;
+            }
         }
-
-        if (SwipeManager.swipeDown && !isSliding)
-        {
-            StartCoroutine(Slide());
-        }
-
         /*
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -108,12 +109,6 @@ public class PlayerController : MonoBehaviour
 
         //Move Player
         controller.Move(direction * Time.deltaTime);
-    }
-
-    private void FixedUpdate()
-    {
-        if (!PlayerManager.isGameStarted) return;
-        controller.Move(direction * Time.fixedDeltaTime);
     }
 
     private void Jump() {
