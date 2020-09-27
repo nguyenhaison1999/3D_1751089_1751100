@@ -4,11 +4,12 @@
 
 ### Submission links
 
-- [Google drive]Link not added
+- [Google drive](https://drive.google.com/file/d/1LeiXdydpw-tsyA8x8ITnJaOc5rQMsE3M/view?usp=sharing)
 
 ### Members
 
 Nguyễn Hải Sơn       - `1751100`
+
 Huỳnh Minh Quốc Nhật - `1751089`
 
 ### Requirements
