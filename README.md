@@ -1,6 +1,6 @@
 # CS427 
 
-## Mini project - 2D Games
+## Final project - 3D
 
 ### Submission links
 
